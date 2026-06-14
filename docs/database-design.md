@@ -35,3 +35,117 @@ Ví dụ:
 ### 6. ReviewSchedule
 
 Đại diện cho lịch ôn tập lại kiến thức.
+
+## Entity Relationships
+
+### User - StudyGoal
+
+User 1 - n StudyGoal
+
+Một user có thể có nhiều study goals.
+
+### StudyGoal - Topic
+
+Một study goal có thể gồm nhiều topic.
+
+Quan hệ:
+
+StudyGoal 1 - n Topic
+### Topic - StudyTask
+
+Một topic có thể có nhiều task học tập.
+
+Quan hệ:
+
+Topic 1 - n StudyTask
+### StudyTask - StudySession
+
+Một task có thể được thực hiện qua nhiều phiên học.
+
+Quan hệ:
+
+StudyTask 1 - n StudySession
+### StudyTask - ReviewSchedule
+
+Khi task hoàn thành, hệ thống có thể tạo lịch ôn tập cho task đó.
+
+Quan hệ:
+
+StudyTask 1 - n ReviewSchedule
+## Status Definitions
+
+### study_goals.status
+
+| Value | Meaning |
+|---|---|
+| active | Đang học |
+| completed | Đã hoàn thành |
+| paused | Tạm dừng |
+| cancelled | Đã hủy |
+
+### topics.status
+
+| Value | Meaning |
+|---|---|
+| not_started | Chưa bắt đầu |
+| in_progress | Đang học |
+| completed | Đã hoàn thành |
+
+### study_tasks.status
+
+| Value | Meaning |
+|---|---|
+| pending | Chưa làm |
+| in_progress | Đang làm |
+| completed | Đã hoàn thành |
+| skipped | Bỏ qua |
+
+### review_schedules.status
+
+| Value | Meaning |
+|---|---|
+| pending | Chưa ôn |
+| completed | Đã ôn |
+| missed | Bỏ lỡ |
+## Main Business Flows
+
+### Flow 1: Register and Login
+
+1. User đăng ký bằng email và password.
+2. Hệ thống kiểm tra email đã tồn tại chưa.
+3. Hệ thống hash password.
+4. Hệ thống lưu user vào database.
+5. User đăng nhập.
+6. Hệ thống kiểm tra password.
+7. Hệ thống trả về JWT token.
+
+### Flow 2: Create Study Goal
+
+1. User gửi request tạo mục tiêu học tập.
+2. Hệ thống kiểm tra user đã đăng nhập.
+3. Hệ thống lưu goal với user_id hiện tại.
+4. Goal mới có trạng thái active.
+## MVP Scope
+
+### In Scope
+
+- User register/login
+- Create/update/delete study goals
+- Create/update/delete topics
+- Create/update/delete study tasks
+- Mark task as completed
+- Create study sessions
+- Create simple review schedules
+- Basic statistics
+
+### Out of Scope
+
+- AI/LLM integration
+- Google Calendar integration
+- Email notification
+- Telegram notification
+- Payment
+- Multi-user collaboration
+- Public sharing
+- Mobile app
+
