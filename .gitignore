@@ -25,3 +25,6 @@ Thumbs.db
 
 # Alembic cache
 alembic/__pycache__/
+
+smart_study.db
+*.db
