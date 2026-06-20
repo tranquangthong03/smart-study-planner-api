@@ -10,7 +10,9 @@ class TopicBase(BaseModel):
 
 
 class TopicCreate(TopicBase):
-    pass
+    # BẮT BUỘC phải có goal_id để biết Topic thuộc về Goal nào
+    goal_id: int = Field(..., description="ID của StudyGoal chứa Topic này")
+    
 
 
 class TopicUpdate(BaseModel):
