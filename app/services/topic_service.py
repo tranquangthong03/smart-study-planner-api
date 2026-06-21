@@ -87,7 +87,7 @@ def update_topic(
     )
     # 2. Cập nhật các trường được gửi lên
     # exclude_unset=True rất quan trọng trong PATCH: chỉ lấy những trường client thực sự gửi
-    update_data = topic_in.model_dump()
+    update_data = topic_in.model_dump(exclude_unset=True)
     for field, value in update_data.items():
        setattr(topic, field, value)
 
