@@ -85,7 +85,7 @@ def update_task(
         task_id = task_id
     )
 
-    update_task = StudyTask(**task_in.model_dump(exclude_unset=True))
+    update_task = task_in.model_dump(exclude_unset=True)
      # Xử lý Business Logic: Tự động cập nhật completed_at dựa vào status
     if "status" in update_task:
         # Nếu status là đã hoàn thành thì tự động cập nhật completed_at của task cần chỉnh sửa
