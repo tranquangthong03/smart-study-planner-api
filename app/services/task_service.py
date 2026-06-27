@@ -30,7 +30,7 @@ def create_task(
       )
     
     # Tạo task
-    new_task = StudyTask(**task_in.model_dump())
+    new_task = StudyTask(**task_in.model_dump(mode="json"))
     db.add(new_task)
     db.commit()
     db.refresh(new_task)
@@ -69,7 +69,7 @@ def get_tasks(
     )
     # Nếu muốn tìm theo task thì
     if topic_id:
-        tasks = tasks.filter(topic_id == Topic.id)
+        tasks = tasks.filter(StudyTask.topic_id == topic_id)
     return tasks.offset(skip).limit(limit).all()
 
 def update_task(
@@ -85,14 +85,14 @@ def update_task(
         task_id = task_id
     )
 
-    update_task = task_in.model_dump(exclude_unset=True)
+    update_data = task_in.model_dump(exclude_unset=True, mode="json")
      # Xử lý Business Logic: Tự động cập nhật completed_at dựa vào status
-    if "status" in update_task:
+    if "status" in update_data:
         # Nếu status là đã hoàn thành thì tự động cập nhật completed_at của task cần chỉnh sửa
-        if update_task["status"] == TaskStatus.DONE:
+        if update_data["status"] == TaskStatus.DONE.value:
             task.completed_at = datetime.now()
     # Cập nhật các trường dữ liệu còn lại
-    for field, value in update_task.item():
+    for field, value in update_data.items():
         setattr(task, field, value)
     
     # Lưu thay đổi vào cơ sở dữ liệu

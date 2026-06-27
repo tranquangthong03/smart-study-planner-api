@@ -51,8 +51,8 @@ def get_session(
 @router.patch("/{session_id}", response_model=StudySessionResponse)
 def update_session(
   session_id: int,
-  session_ind: StudySessionUpdate,
-  current_user = Depends(get_current_user),
+  session_in: StudySessionUpdate,
+  current_user: User = Depends(get_current_user),
   db: Session = Depends(get_db)
 ):
    return session_service.update_session(db=db, session_id=session_id, session_in=session_in, user_id=current_user.id)

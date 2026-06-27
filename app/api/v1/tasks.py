@@ -7,7 +7,7 @@ from app.models.user import User
 from app.schemas.study_task import StudyTaskResponse, StudyTaskCreate, StudyTaskUpdate
 from app.core.dependencies import get_current_user
 from app.db.session import get_db
-from app.services.task_service import create_task, get_tasks, get_task_or_404, update_task, delete_task
+from app.services.task_service import create_task as create_task_service, get_tasks as get_tasks_service, get_task_or_404, update_task as update_task_service, delete_task as delete_task_service
 router = APIRouter()
 
 @router.post("/", response_model=StudyTaskResponse, status_code=status.HTTP_201_CREATED)
@@ -16,7 +16,7 @@ def create_task(
   db: Session = Depends(get_db),
   current_user: User = Depends(get_current_user)
 ):
-  return create_task(task_in=task_in, db=db, user_id=current_user.id)
+  return create_task_service(task_in=task_in, db=db, user_id=current_user.id)
 
 @router.get("/", response_model=List[StudyTaskResponse])
 def get_tasks(
@@ -26,7 +26,7 @@ def get_tasks(
   db: Session = Depends(get_db),
   current_user: User = Depends(get_current_user)
 ):
-  return get_tasks(topic_id=topic_id, skip=skip, limit=limit, db=db, user_id=current_user.id)
+  return get_tasks_service(topic_id=topic_id, skip=skip, limit=limit, db=db, user_id=current_user.id)
 
 @router.get("/{task_id}", response_model=StudyTaskResponse)
 def get_task(
@@ -43,8 +43,8 @@ def update_task(
   db: Session = Depends(get_db),
   current_user: User = Depends(get_current_user)
 ):
-  return update_task(db=db, task_id=task_id, task_in=task_in, user_id=current_user.id)
+  return update_task_service(db=db, task_id=task_id, task_in=task_in, user_id=current_user.id)
 
 @router.delete("/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_task(task_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-  return delete_task(task_id=task_id, db=db, user_id=current_user.id)
+  return delete_task_service(task_id=task_id, db=db, user_id=current_user.id)
